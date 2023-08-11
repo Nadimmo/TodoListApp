@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="C:\Users\Nadim Mostofa\Desktop\Project\style17.css">
+</head>
+<body>
+    <h1 id="text">Starting...</h1>
+    <div>
+        <label for="speed"></label>
+        <input type="number" name="speed" id="speed" value="1" min="1" max="10" step="1"  style="opacity: 0.0;">
+    </div>
+
+    <form id="form">
+        <input type="text" class="input" id="input" placeholder="Enter Your Todo" autocomplete="off">
+        <ul class="todos" id="todos"></ul>
+    </form>
+
+    <small>
+        Left click to toggle completed. <br> Right click to delete todo
+    </small>
+
+    <p style="text-align: center;">   All Copyright Create @2023  ``~Nadim Mostofa~``     </p>
+    
+
+    <!-- javascript part -->
+
+    <script>
+        const form = document.querySelector('#form')
+        const input = document.querySelector('#input')
+        const todosUL = document.querySelector('#todos')
+
+
+        const todos = JSON.parse(localStorage.getItem('todos'))
+
+        if(todos){
+            todos.forEach(todo => addTodo(todo))
+        }
+
+        form.addEventListener('submit',(e) =>{
+            e.preventDefault()
+            addTodo()
+        })
+
+        function addTodo(todo){
+            let todoText = input.value
+
+            if(todo){
+                todoText = todo.text
+
+            }
+
+            if(todoText){
+                const todoE1 = document.createElement('li')
+                if(todo && todo.completed){
+                    todoE1.classList.add('completed')
+                }
+
+                todoE1.innerText = todoText
+
+                todoE1.addEventListener('click', () =>{
+                    todoE1.classList.toggle('completed')
+                    updateLS()
+                })
+
+                todoE1.addEventListener('contextmenu', (e) =>{
+                    e.preventDefault()
+
+                    todoE1.remove()
+                    updateLS()
+                })
+
+                todoE1.addEventListener('contextmenu', (e) =>{
+                    e.preventDefault()
+
+                    todoE1.remove()
+                    updateLS()
+                })
+
+                todosUL.appendChild(todoE1)
+
+                input.value = ''
+
+                updateLS()
+            }
+        }
+
+        function updateLS(){
+            todoE1 = document.querySelectorAll('li')
+            const todos = []
+
+            todoE1.forEach(todoE1 => {
+                todos.push({
+                    text:todoE1.innerText,
+                    completed:todoE1.classList.contains('completed')
+                })
+            })
+
+            localStorage.setItem('todos',JSON.stringify(todos))
+        }
+    </script>
+<!-- Text Effect -->
+    <script>
+        const textE1 = document.querySelector('#text')
+        const speedE1 = document.querySelector('#speed')
+        let text = 'Creat Your Todo List!'
+        let index = 1 
+
+        let speed = 300/speedE1.value
+
+        writtext()
+        function writtext(){
+        textE1.innerText = text.slice(0,index)
+        index ++
+
+        if(index > text.length){
+            index = 1
+        }
+        setTimeout(writtext,speed)
+        }
+        speedE1.addEventListener('input',(e) => speed = 300 / e.target.value)
+
+    </script>
+</body>
+</html>
